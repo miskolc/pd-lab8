@@ -1,0 +1,1450 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- This file was created with the aha Ansi HTML Adapter. http://ziz.delphigl.com/tool_aha.php -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xml+xhtml; charset=UTF-8" />
+<title>stdin</title>
+</head>
+<body>
+<pre>
+<span style="color:olive;">973cc40</span> First Commit;
+</pre>
+</body>
+</html>
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- This file was created with the aha Ansi HTML Adapter. http://ziz.delphigl.com/tool_aha.php -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xml+xhtml; charset=UTF-8" />
+<title>stdin</title>
+</head>
+<body>
+<pre>
+<span style="color:olive;">commit 973cc40dd4a9891d3d77f3ffd3d67ccdbc4b5c51</span>
+Author: Dragos Calin &lt;calinho_gx1992@yahoo.com&gt;
+Date:   Thu Dec 11 08:31:37 2014 +0200
+
+    First Commit;
+
+<span style="font-weight:bold;">diff --git a/Makefile b/Makefile</span>
+<span style="font-weight:bold;">new file mode 100644</span>
+<span style="font-weight:bold;">index 0000000..1fe0d32</span>
+<span style="font-weight:bold;">--- /dev/null</span>
+<span style="font-weight:bold;">+++ b/Makefile</span>
+<span style="color:teal;">@@ -0,0 +1,47 @@</span>
+
+
+<span style="color:green;">all: imp</span>
+
+<span style="color:green;">opt:</span>
+<span style="color:green;">	ocamlopt -c impAST.ml</span>
+<span style="color:green;">	ocamlyacc parser.mly</span>
+<span style="color:green;">	ocamlopt -c parser.mli</span>
+<span style="color:green;">	ocamllex lexer.mll</span>
+<span style="color:green;">	ocamlopt -c lexer.ml</span>
+<span style="color:green;">	ocamlopt -c parser.ml</span>
+<span style="color:green;">	ocamlopt -c mem.ml</span>
+<span style="color:green;">	ocamlopt -c semantics.ml</span>
+<span style="color:green;">	ocamlopt -c types.ml</span>
+<span style="color:green;">	ocamlopt -c imp.ml</span>
+<span style="color:green;">	ocamlopt -o imp-opt impAST.cmx lexer.cmx parser.cmx mem.cmx semantics.cmx types.cmx imp.cmx</span>
+
+<span style="color:green;">mem.cmo: impAST.cmo</span>
+<span style="color:green;">	ocamlc -c mem.ml</span>
+
+<span style="color:green;">lexer.ml: lexer.mll parser.cmi</span>
+<span style="color:green;">	ocamllex lexer.mll</span>
+
+<span style="color:green;">parser.ml: parser.mly impAST.cmo</span>
+<span style="color:green;">	ocamlyacc parser.mly</span>
+
+<span style="color:green;">parser.cmi: parser.ml</span>
+<span style="color:green;">	ocamlc -c parser.mli</span>
+
+<span style="color:green;">types.cmo: types.ml mem.cmo impAST.cmo</span>
+<span style="color:green;">	ocamlc -c types.ml</span>
+
+<span style="color:green;">semantics.cmo: semantics.ml mem.cmo impAST.cmo</span>
+<span style="color:green;">	ocamlc -c semantics.ml</span>
+
+<span style="color:green;">imp.cmo: imp.ml semantics.cmo types.cmo lexer.ml</span>
+<span style="color:green;">	ocamlc -c imp.ml</span>
+
+<span style="color:green;">%.cmo: %.ml</span>
+<span style="color:green;">	ocamlc -c $&lt;</span>
+
+<span style="color:green;">imp: impAST.cmo lexer.cmo parser.cmo imp.cmo mem.cmo semantics.cmo types.cmo</span>
+<span style="color:green;">	ocamlc -o imp impAST.cmo lexer.cmo parser.cmo mem.cmo semantics.cmo types.cmo imp.cmo</span>
+
+<span style="color:green;">clean:</span>
+<span style="color:green;">	rm -f lexer.ml parser.ml parser.mli *.cmo *.cmi imp</span>
+<span style="color:green;">	rm -f *.cmx *.o</span>
+<span style="font-weight:bold;">diff --git a/compile.bat b/compile.bat</span>
+<span style="font-weight:bold;">new file mode 100644</span>
+<span style="font-weight:bold;">index 0000000..5a8b2ef</span>
+<span style="font-weight:bold;">--- /dev/null</span>
+<span style="font-weight:bold;">+++ b/compile.bat</span>
+<span style="color:teal;">@@ -0,0 +1,11 @@</span>
+<span style="color:green;">ocamlc -c impAST.ml</span>
+<span style="color:green;">ocamlyacc parser.mly</span>
+<span style="color:green;">ocamlc -c parser.mli</span>
+<span style="color:green;">ocamllex lexer.mll</span>
+<span style="color:green;">ocamlc -c lexer.ml</span>
+<span style="color:green;">ocamlc -c parser.ml</span>
+<span style="color:green;">ocamlc -c mem.ml</span>
+<span style="color:green;">ocamlc -c semantics.ml</span>
+<span style="color:green;">ocamlc -c types.ml</span>
+<span style="color:green;">ocamlc -c imp.ml</span>
+<span style="color:green;">ocamlc -o imp.exe impAST.cmo lexer.cmo parser.cmo mem.cmo semantics.cmo types.cmo imp.cmo</span>
+<span style="font-weight:bold;">diff --git a/compile.sh b/compile.sh</span>
+<span style="font-weight:bold;">new file mode 100644</span>
+<span style="font-weight:bold;">index 0000000..7b01d7e</span>
+<span style="font-weight:bold;">--- /dev/null</span>
+<span style="font-weight:bold;">+++ b/compile.sh</span>
+<span style="color:teal;">@@ -0,0 +1,11 @@</span>
+<span style="color:green;">ocamlc -c impAST.ml</span>
+<span style="color:green;">ocamlyacc parser.mly</span>
+<span style="color:green;">ocamlc -c parser.mli</span>
+<span style="color:green;">ocamllex lexer.mll</span>
+<span style="color:green;">ocamlc -c lexer.ml</span>
+<span style="color:green;">ocamlc -c parser.ml</span>
+<span style="color:green;">ocamlc -c mem.ml</span>
+<span style="color:green;">ocamlc -c semantics.ml</span>
+<span style="color:green;">ocamlc -c types.ml</span>
+<span style="color:green;">ocamlc -c imp.ml</span>
+<span style="color:green;">ocamlc -o imp impAST.cmo lexer.cmo parser.cmo mem.cmo semantics.cmo types.cmo imp.cmo</span>
+<span style="font-weight:bold;">diff --git a/imp.cmi b/imp.cmi</span>
+<span style="font-weight:bold;">new file mode 100644</span>
+<span style="font-weight:bold;">index 0000000..7bc47c8</span>
+Binary files /dev/null and b/imp.cmi differ
+<span style="font-weight:bold;">diff --git a/imp.cmo b/imp.cmo</span>
+<span style="font-weight:bold;">new file mode 100644</span>
+<span style="font-weight:bold;">index 0000000..b6a85e0</span>
+Binary files /dev/null and b/imp.cmo differ
+<span style="font-weight:bold;">diff --git a/imp.ml b/imp.ml</span>
+<span style="font-weight:bold;">new file mode 100644</span>
+<span style="font-weight:bold;">index 0000000..9e87dbf</span>
+<span style="font-weight:bold;">--- /dev/null</span>
+<span style="font-weight:bold;">+++ b/imp.ml</span>
+<span style="color:teal;">@@ -0,0 +1,37 @@</span>
+<span style="color:green;">open Lexing</span>
+<span style="color:green;">open Types</span>
+
+<span style="color:green;">let rec init_mem v = function</span>
+<span style="color:green;">  | [] -&gt; []</span>
+<span style="color:green;">  | h::t -&gt; (h,v)::(init_mem v t)</span>
+
+<span style="color:green;">exception Error of exn * (string*int * int * string (** string *))</span>
+
+
+<span style="color:green;">let type_and_run pgm = </span>
+<span style="color:green;">  let locs = ImpAST.locations pgm in</span>
+<span style="color:green;">      if (type_check  (init_mem TIntRef locs) pgm) then begin</span>
+<span style="color:green;">          Printf.printf &quot;The program typechecks. Executing...&quot; ;</span>
+<span style="color:green;">          flush stdout ;</span>
+<span style="color:green;">          let final = (Semantics.evaluate (pgm,init_mem 0 locs)) in</span>
+<span style="color:green;">            Printf.printf &quot; done.\n Final configuration:\n\n  %s\n\n&quot; </span>
+<span style="color:green;">                  (Semantics.string_of_config final) </span>
+<span style="color:green;">      end else ()</span>
+
+
+<span style="color:green;">let cin () =</span>
+<span style="color:green;">      if Array.length Sys.argv &gt; 1</span>
+<span style="color:green;">      then open_in Sys.argv.(1)</span>
+<span style="color:green;">      else failwith &quot;please specify program file&quot;</span>
+
+<span style="color:green;">let _ = </span>
+<span style="color:green;">  let lexbuf = Lexing.from_channel (cin ()) in</span>
+<span style="color:green;">    lexbuf.lex_curr_p &lt;- { lexbuf.lex_curr_p with pos_fname = Sys.argv.(1) };</span>
+<span style="color:green;">    try </span>
+<span style="color:green;">      let pgm = Parser.main Lexer.token lexbuf in</span>
+<span style="color:green;">       type_and_run pgm</span>
+<span style="color:green;">    with</span>
+<span style="color:green;">      Lexer.LexerError (loc,tok) -&gt;</span>
+<span style="color:green;">        Printf.eprintf &quot;Lexer Error: Unexpected token '%s' at %s\n&quot; (Lexing.lexeme lexbuf) loc</span>
+<span style="color:green;">    | Lexer.ParseError loc -&gt;</span>
+<span style="color:green;">        Printf.eprintf &quot;Parse Error: Unexpected token '%s' at %s\n&quot; (Lexing.lexeme lexbuf) loc</span>
+<span style="font-weight:bold;">diff --git a/impAST.cmi b/impAST.cmi</span>
+<span style="font-weight:bold;">new file mode 100644</span>
+<span style="font-weight:bold;">index 0000000..627f876</span>
+Binary files /dev/null and b/impAST.cmi differ
+<span style="font-weight:bold;">diff --git a/impAST.cmo b/impAST.cmo</span>
+<span style="font-weight:bold;">new file mode 100644</span>
+<span style="font-weight:bold;">index 0000000..37cb478</span>
+Binary files /dev/null and b/impAST.cmo differ
+<span style="font-weight:bold;">diff --git a/impAST.ml b/impAST.ml</span>
+<span style="font-weight:bold;">new file mode 100644</span>
+<span style="font-weight:bold;">index 0000000..7fcf800</span>
+<span style="font-weight:bold;">--- /dev/null</span>
+<span style="font-weight:bold;">+++ b/impAST.ml</span>
+<span style="color:teal;">@@ -0,0 +1,85 @@</span>
+<span style="color:green;">type locatie = string</span>
+
+<span style="color:green;">type op =</span>
+<span style="color:green;">  | Plus</span>
+<span style="color:green;">  | Mic</span>
+<span style="color:green;">  | Minus</span>
+<span style="color:green;">  | Mul</span>
+<span style="color:green;">  | Div</span>
+<span style="color:green;">  | Egal</span>
+
+<span style="color:green;">let string_of_op = function</span>
+<span style="color:green;">  | Plus -&gt; &quot;+&quot;</span>
+<span style="color:green;">  | Minus -&gt; &quot;-&quot;</span>
+<span style="color:green;">  | Mul -&gt; &quot;*&quot;</span>
+<span style="color:green;">  | Div -&gt; &quot;/&quot;</span>
+<span style="color:green;">  | Egal -&gt; &quot;==&quot;</span>
+<span style="color:green;">  | Mic -&gt; &quot;&lt;=&quot;</span>
+
+<span style="color:green;">type expr =</span>
+<span style="color:green;">  | Bool of bool * locatie</span>
+<span style="color:green;">  | Int of int * locatie</span>
+<span style="color:green;">  | Loc of string * locatie</span>
+<span style="color:green;">  | Op of expr * op * expr * locatie</span>
+<span style="color:green;">  | Atrib of string * expr * locatie</span>
+<span style="color:green;">  | Secv of expr * expr * locatie</span>
+<span style="color:green;">  | If of expr * expr * expr * locatie</span>
+<span style="color:green;">  | While of expr * expr * locatie</span>
+<span style="color:green;">  | For of expr * expr * expr * expr * locatie</span>
+<span style="color:green;">  | Skip of locatie</span>
+
+<span style="color:green;">let rec string_of_expr = function</span>
+<span style="color:green;">  | Int (i,_) -&gt; string_of_int i</span>
+<span style="color:green;">  | Bool (b,_) -&gt; string_of_bool b</span>
+<span style="color:green;">  | Loc (s,_) -&gt; &quot;!&quot; ^ s</span>
+<span style="color:green;">  | Op (e1, b, e2,_) -&gt;</span>
+<span style="color:green;">    &quot;(&quot; ^ (string_of_expr e1) ^ (string_of_op b) ^ (string_of_expr e2) ^ &quot;)&quot;</span>
+<span style="color:green;">  | Atrib (s,e2,_) -&gt;</span>
+<span style="color:green;">    s ^ &quot;:=&quot; ^ (string_of_expr e2)</span>
+<span style="color:green;">  | If (e1, e2, e3,_) -&gt;</span>
+<span style="color:green;">    &quot;if &quot; ^ (string_of_expr e1) ^ &quot;\nthen &quot; ^ (string_of_expr e2) ^ &quot;\nelse (&quot; ^ (string_of_expr e3) ^ &quot;)&quot;</span>
+<span style="color:green;">  | While (e1, e2,_) -&gt;</span>
+<span style="color:green;">    &quot;while &quot; ^ (string_of_expr e1) ^ &quot; do \n&quot; ^ (string_of_expr e2) ^ &quot;\ndone&quot;</span>
+<span style="color:green;">  | For (e1, e2, e3, e4, _)</span>
+<span style="color:green;">    -&gt; &quot;for (&quot; ^ (string_of_expr e1) ^ &quot;; &quot; ^ (string_of_expr e2) ^ &quot;; &quot; ^ (string_of_expr e3) ^ &quot;) (\n&quot; ^ (string_of_expr e2) ^ &quot;\n)&quot;</span>
+<span style="color:green;">  | Secv (e1,e2,_) -&gt;</span>
+<span style="color:green;">    (string_of_expr e1) ^ &quot;;\n&quot; ^ (string_of_expr e2)</span>
+<span style="color:green;">  | Skip _ -&gt; &quot;skip&quot;</span>
+
+
+<span style="color:green;">let location = function</span>
+<span style="color:green;">  | Int (_,l)</span>
+<span style="color:green;">  | Bool (_,l)</span>
+<span style="color:green;">  | Loc (_,l)</span>
+<span style="color:green;">  | Op (_, _, _,l)</span>
+<span style="color:green;">  | Atrib (_,_,l)</span>
+<span style="color:green;">  | If (_, _, _,l)</span>
+<span style="color:green;">  | While (_, _,l)</span>
+<span style="color:green;">  | For (_, _, _, _,l)</span>
+<span style="color:green;">  | Secv (_,_,l)</span>
+<span style="color:green;">  | Skip l </span>
+<span style="color:green;">  -&gt; l</span>
+
+
+<span style="color:green;">let rec insert x l = match l with</span>
+<span style="color:green;">  | [] -&gt; [x]</span>
+<span style="color:green;">  | h::t when h = x -&gt; l</span>
+<span style="color:green;">  | h::t when x &lt; h -&gt; x::l</span>
+<span style="color:green;">  | h::t -&gt; h::(insert x t)</span>
+
+<span style="color:green;">let locations e =</span>
+<span style="color:green;">    let rec locations locs = function</span>
+<span style="color:green;">      | [] -&gt; locs</span>
+<span style="color:green;">      | e::exps -&gt; (match e with</span>
+<span style="color:green;">          | Bool _ | Int _ | Skip _ -&gt; locations locs exps</span>
+<span style="color:green;">          | Loc (l,_) -&gt; locations (insert l locs) exps</span>
+<span style="color:green;">          | Op(e1,_,e2,_) -&gt; locations locs (e1::e2::exps)</span>
+<span style="color:green;">          | Atrib(l,e,_) -&gt; locations (insert l locs) (e::exps)</span>
+<span style="color:green;">          | Secv(e1,e2,_) -&gt; locations locs (e1::e2::exps)</span>
+<span style="color:green;">          | If(e1,e2,e3,_) -&gt; locations locs (e1::e2::e3::exps)</span>
+<span style="color:green;">          | While(e1,e2,_) -&gt; locations locs (e1::e2::exps)</span>
+<span style="color:green;">          | For(e1,e2,e3,e4,_) -&gt; locations locs (e1::e2::e3::e4::exps)</span>
+<span style="color:green;">      )</span>
+<span style="color:green;">    in locations [] [e]</span>
+
+
+<span style="font-weight:bold;">diff --git a/lexer.cmi b/lexer.cmi</span>
+<span style="font-weight:bold;">new file mode 100644</span>
+<span style="font-weight:bold;">index 0000000..903cbde</span>
+Binary files /dev/null and b/lexer.cmi differ
+<span style="font-weight:bold;">diff --git a/lexer.cmo b/lexer.cmo</span>
+<span style="font-weight:bold;">new file mode 100644</span>
+<span style="font-weight:bold;">index 0000000..a2ed90b</span>
+Binary files /dev/null and b/lexer.cmo differ
+<span style="font-weight:bold;">diff --git a/lexer.ml b/lexer.ml</span>
+<span style="font-weight:bold;">new file mode 100644</span>
+<span style="font-weight:bold;">index 0000000..f567024</span>
+<span style="font-weight:bold;">--- /dev/null</span>
+<span style="font-weight:bold;">+++ b/lexer.ml</span>
+<span style="color:teal;">@@ -0,0 +1,283 @@</span>
+<span style="color:green;"># 2 &quot;lexer.mll&quot;</span>
+<span style="color:green;"> </span>
+<span style="color:green;">open Parser        (* The type token is defined in parser.mli *)</span>
+
+<span style="color:green;">exception LexerError of string * string</span>
+<span style="color:green;">exception ParseError of string</span>
+
+<span style="color:green;">(*  Code for maintaining line numbers while tokenizing *)</span>
+
+<span style="color:green;">let incr_linenum lexbuf =</span>
+<span style="color:green;">      let pos = lexbuf.Lexing.lex_curr_p in</span>
+<span style="color:green;">      lexbuf.Lexing.lex_curr_p &lt;- { pos with</span>
+<span style="color:green;">        (* incrementing line number *)</span>
+<span style="color:green;">        Lexing.pos_lnum = pos.Lexing.pos_lnum + 1;</span>
+<span style="color:green;">        (* setting offset for beggining of line *)</span>
+<span style="color:green;">        Lexing.pos_bol = pos.Lexing.pos_cnum;</span>
+<span style="color:green;">      }</span>
+
+<span style="color:green;">let lex_error lexbuf =</span>
+<span style="color:green;">         begin</span>
+<span style="color:green;">           let curr = lexbuf.Lexing.lex_curr_p in</span>
+<span style="color:green;">           let file = curr.Lexing.pos_fname</span>
+<span style="color:green;">           and line = curr.Lexing.pos_lnum</span>
+<span style="color:green;">           and cnum = curr.Lexing.pos_cnum - curr.Lexing.pos_bol</span>
+<span style="color:green;">           and tok = Lexing.lexeme lexbuf in</span>
+<span style="color:green;">              raise (LexerError (Printf.sprintf &quot;%s:%d.%d&quot; file line cnum,tok))</span>
+<span style="color:green;">         end</span>
+
+<span style="color:green;">let keyword_table = Hashtbl.create 20</span>
+<span style="color:green;">  let _ =</span>
+<span style="color:green;">    List.iter (fun (kwd, tok) -&gt; Hashtbl.add keyword_table kwd tok)</span>
+<span style="color:green;">  [( &quot;if&quot;           , IF );</span>
+<span style="color:green;">   ( &quot;then&quot;         , THEN );</span>
+<span style="color:green;">   ( &quot;else&quot;         , ELSE );</span>
+<span style="color:green;">   ( &quot;while&quot;        , WHILE );</span>
+<span style="color:green;">   ( &quot;do&quot;           , DO );</span>
+<span style="color:green;">   ( &quot;done&quot;         , DONE );</span>
+<span style="color:green;">   ( &quot;for&quot;          , FOR );</span>
+<span style="color:green;">   ( &quot;true&quot;         , TRUE );</span>
+<span style="color:green;">   ( &quot;false&quot;        , FALSE );</span>
+<span style="color:green;">   ( &quot;skip&quot;         , SKIP )]</span>
+
+
+<span style="color:green;"># 45 &quot;lexer.ml&quot;</span>
+<span style="color:green;">let __ocaml_lex_tables = {</span>
+<span style="color:green;">  Lexing.lex_base = </span>
+<span style="color:green;">   &quot;\000\000\239\255\240\255\075\000\242\255\243\255\001\000\245\255\</span>
+<span style="color:green;">    \246\255\002\000\003\000\249\255\250\255\252\255\150\000\160\000\</span>
+<span style="color:green;">    \254\255\255\255\248\255\247\255\244\255&quot;;</span>
+<span style="color:green;">  Lexing.lex_backtrk = </span>
+<span style="color:green;">   &quot;\255\255\255\255\255\255\014\000\255\255\255\255\016\000\255\255\</span>
+<span style="color:green;">    \255\255\016\000\016\000\255\255\255\255\255\255\002\000\004\000\</span>
+<span style="color:green;">    \255\255\255\255\255\255\255\255\255\255&quot;;</span>
+<span style="color:green;">  Lexing.lex_default = </span>
+<span style="color:green;">   &quot;\001\000\000\000\000\000\255\255\000\000\000\000\255\255\000\000\</span>
+<span style="color:green;">    \000\000\255\255\255\255\000\000\000\000\000\000\255\255\255\255\</span>
+<span style="color:green;">    \000\000\000\000\000\000\000\000\000\000&quot;;</span>
+<span style="color:green;">  Lexing.lex_trans = </span>
+<span style="color:green;">   &quot;\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span>
+<span style="color:green;">    \000\000\016\000\017\000\000\000\000\000\016\000\000\000\000\000\</span>
+<span style="color:green;">    \000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span>
+<span style="color:green;">    \000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span>
+<span style="color:green;">    \016\000\004\000\000\000\000\000\000\000\000\000\000\000\000\000\</span>
+<span style="color:green;">    \008\000\007\000\012\000\013\000\000\000\015\000\000\000\011\000\</span>
+<span style="color:green;">    \014\000\014\000\014\000\014\000\014\000\014\000\014\000\014\000\</span>
+<span style="color:green;">    \014\000\014\000\006\000\005\000\010\000\009\000\020\000\019\000\</span>
+<span style="color:green;">    \018\000\003\000\003\000\003\000\003\000\003\000\003\000\003\000\</span>
+<span style="color:green;">    \003\000\003\000\003\000\003\000\003\000\003\000\003\000\003\000\</span>
+<span style="color:green;">    \003\000\003\000\003\000\003\000\003\000\003\000\003\000\003\000\</span>
+<span style="color:green;">    \003\000\003\000\003\000\000\000\000\000\000\000\000\000\000\000\</span>
+<span style="color:green;">    \000\000\003\000\003\000\003\000\003\000\003\000\003\000\003\000\</span>
+<span style="color:green;">    \003\000\003\000\003\000\003\000\003\000\003\000\003\000\003\000\</span>
+<span style="color:green;">    \003\000\003\000\003\000\003\000\003\000\003\000\003\000\003\000\</span>
+<span style="color:green;">    \003\000\003\000\003\000\003\000\003\000\003\000\003\000\003\000\</span>
+<span style="color:green;">    \003\000\003\000\003\000\003\000\003\000\000\000\000\000\000\000\</span>
+<span style="color:green;">    \000\000\000\000\000\000\000\000\003\000\003\000\003\000\003\000\</span>
+<span style="color:green;">    \003\000\003\000\003\000\003\000\003\000\003\000\003\000\003\000\</span>
+<span style="color:green;">    \003\000\003\000\003\000\003\000\003\000\003\000\003\000\003\000\</span>
+<span style="color:green;">    \003\000\003\000\003\000\003\000\003\000\003\000\000\000\000\000\</span>
+<span style="color:green;">    \000\000\000\000\003\000\000\000\003\000\003\000\003\000\003\000\</span>
+<span style="color:green;">    \003\000\003\000\003\000\003\000\003\000\003\000\003\000\003\000\</span>
+<span style="color:green;">    \003\000\003\000\003\000\003\000\003\000\003\000\003\000\003\000\</span>
+<span style="color:green;">    \003\000\003\000\003\000\003\000\003\000\003\000\014\000\014\000\</span>
+<span style="color:green;">    \014\000\014\000\014\000\014\000\014\000\014\000\014\000\014\000\</span>
+<span style="color:green;">    \014\000\014\000\014\000\014\000\014\000\014\000\014\000\014\000\</span>
+<span style="color:green;">    \014\000\014\000\000\000\000\000\000\000\000\000\000\000\000\000\</span>
+<span style="color:green;">    \000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span>
+<span style="color:green;">    \000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span>
+<span style="color:green;">    \000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span>
+<span style="color:green;">    \000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span>
+<span style="color:green;">    \002\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span>
+<span style="color:green;">    \000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span>
+<span style="color:green;">    \000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span>
+<span style="color:green;">    \000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span>
+<span style="color:green;">    \000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span>
+<span style="color:green;">    \000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span>
+<span style="color:green;">    \000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span>
+<span style="color:green;">    \000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span>
+<span style="color:green;">    \000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span>
+<span style="color:green;">    \000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span>
+<span style="color:green;">    \000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span>
+<span style="color:green;">    \000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span>
+<span style="color:green;">    \000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span>
+<span style="color:green;">    \000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span>
+<span style="color:green;">    \000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span>
+<span style="color:green;">    \000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span>
+<span style="color:green;">    \000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span>
+<span style="color:green;">    \000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span>
+<span style="color:green;">    \000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span>
+<span style="color:green;">    \000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span>
+<span style="color:green;">    \000\000&quot;;</span>
+<span style="color:green;">  Lexing.lex_check = </span>
+<span style="color:green;">   &quot;\255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\</span>
+<span style="color:green;">    \255\255\000\000\000\000\255\255\255\255\000\000\255\255\255\255\</span>
+<span style="color:green;">    \255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\</span>
+<span style="color:green;">    \255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\</span>
+<span style="color:green;">    \000\000\000\000\255\255\255\255\255\255\255\255\255\255\255\255\</span>
+<span style="color:green;">    \000\000\000\000\000\000\000\000\255\255\000\000\255\255\000\000\</span>
+<span style="color:green;">    \000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span>
+<span style="color:green;">    \000\000\000\000\000\000\000\000\000\000\000\000\006\000\009\000\</span>
+<span style="color:green;">    \010\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span>
+<span style="color:green;">    \000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span>
+<span style="color:green;">    \000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span>
+<span style="color:green;">    \000\000\000\000\000\000\255\255\255\255\255\255\255\255\255\255\</span>
+<span style="color:green;">    \255\255\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span>
+<span style="color:green;">    \000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span>
+<span style="color:green;">    \000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span>
+<span style="color:green;">    \000\000\000\000\000\000\003\000\003\000\003\000\003\000\003\000\</span>
+<span style="color:green;">    \003\000\003\000\003\000\003\000\003\000\255\255\255\255\255\255\</span>
+<span style="color:green;">    \255\255\255\255\255\255\255\255\003\000\003\000\003\000\003\000\</span>
+<span style="color:green;">    \003\000\003\000\003\000\003\000\003\000\003\000\003\000\003\000\</span>
+<span style="color:green;">    \003\000\003\000\003\000\003\000\003\000\003\000\003\000\003\000\</span>
+<span style="color:green;">    \003\000\003\000\003\000\003\000\003\000\003\000\255\255\255\255\</span>
+<span style="color:green;">    \255\255\255\255\003\000\255\255\003\000\003\000\003\000\003\000\</span>
+<span style="color:green;">    \003\000\003\000\003\000\003\000\003\000\003\000\003\000\003\000\</span>
+<span style="color:green;">    \003\000\003\000\003\000\003\000\003\000\003\000\003\000\003\000\</span>
+<span style="color:green;">    \003\000\003\000\003\000\003\000\003\000\003\000\014\000\014\000\</span>
+<span style="color:green;">    \014\000\014\000\014\000\014\000\014\000\014\000\014\000\014\000\</span>
+<span style="color:green;">    \015\000\015\000\015\000\015\000\015\000\015\000\015\000\015\000\</span>
+<span style="color:green;">    \015\000\015\000\255\255\255\255\255\255\255\255\255\255\255\255\</span>
+<span style="color:green;">    \255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\</span>
+<span style="color:green;">    \255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\</span>
+<span style="color:green;">    \255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\</span>
+<span style="color:green;">    \255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\</span>
+<span style="color:green;">    \000\000\255\255\255\255\255\255\255\255\255\255\255\255\255\255\</span>
+<span style="color:green;">    \255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\</span>
+<span style="color:green;">    \255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\</span>
+<span style="color:green;">    \255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\</span>
+<span style="color:green;">    \255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\</span>
+<span style="color:green;">    \255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\</span>
+<span style="color:green;">    \255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\</span>
+<span style="color:green;">    \255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\</span>
+<span style="color:green;">    \255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\</span>
+<span style="color:green;">    \255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\</span>
+<span style="color:green;">    \255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\</span>
+<span style="color:green;">    \255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\</span>
+<span style="color:green;">    \255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\</span>
+<span style="color:green;">    \255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\</span>
+<span style="color:green;">    \255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\</span>
+<span style="color:green;">    \255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\</span>
+<span style="color:green;">    \255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\</span>
+<span style="color:green;">    \255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\</span>
+<span style="color:green;">    \255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\</span>
+<span style="color:green;">    \255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\</span>
+<span style="color:green;">    \255\255&quot;;</span>
+<span style="color:green;">  Lexing.lex_base_code = </span>
+<span style="color:green;">   &quot;&quot;;</span>
+<span style="color:green;">  Lexing.lex_backtrk_code = </span>
+<span style="color:green;">   &quot;&quot;;</span>
+<span style="color:green;">  Lexing.lex_default_code = </span>
+<span style="color:green;">   &quot;&quot;;</span>
+<span style="color:green;">  Lexing.lex_trans_code = </span>
+<span style="color:green;">   &quot;&quot;;</span>
+<span style="color:green;">  Lexing.lex_check_code = </span>
+<span style="color:green;">   &quot;&quot;;</span>
+<span style="color:green;">  Lexing.lex_code = </span>
+<span style="color:green;">   &quot;&quot;;</span>
+<span style="color:green;">}</span>
+
+<span style="color:green;">let rec token lexbuf =</span>
+<span style="color:green;">    __ocaml_lex_token_rec lexbuf 0</span>
+<span style="color:green;">and __ocaml_lex_token_rec lexbuf __ocaml_lex_state =</span>
+<span style="color:green;">  match Lexing.engine __ocaml_lex_tables __ocaml_lex_state lexbuf with</span>
+<span style="color:green;">      | 0 -&gt;</span>
+<span style="color:green;"># 46 &quot;lexer.mll&quot;</span>
+<span style="color:green;">             ( incr_linenum lexbuf ; token lexbuf )</span>
+<span style="color:green;"># 188 &quot;lexer.ml&quot;</span>
+
+<span style="color:green;">  | 1 -&gt;</span>
+<span style="color:green;"># 47 &quot;lexer.mll&quot;</span>
+<span style="color:green;">                         ( token lexbuf )</span>
+<span style="color:green;"># 193 &quot;lexer.ml&quot;</span>
+
+<span style="color:green;">  | 2 -&gt;</span>
+<span style="color:green;">let</span>
+<span style="color:green;"># 48 &quot;lexer.mll&quot;</span>
+<span style="color:green;">                        lxm</span>
+<span style="color:green;"># 199 &quot;lexer.ml&quot;</span>
+<span style="color:green;">= Lexing.sub_lexeme lexbuf lexbuf.Lexing.lex_start_pos lexbuf.Lexing.lex_curr_pos in</span>
+<span style="color:green;"># 48 &quot;lexer.mll&quot;</span>
+<span style="color:green;">                            ( INT(int_of_string lxm) )</span>
+<span style="color:green;"># 203 &quot;lexer.ml&quot;</span>
+
+<span style="color:green;">  | 3 -&gt;</span>
+<span style="color:green;"># 49 &quot;lexer.mll&quot;</span>
+<span style="color:green;">                   ( PLUS )</span>
+<span style="color:green;"># 208 &quot;lexer.ml&quot;</span>
+
+<span style="color:green;">  | 4 -&gt;</span>
+<span style="color:green;"># 50 &quot;lexer.mll&quot;</span>
+<span style="color:green;">                   ( MINUS )</span>
+<span style="color:green;"># 213 &quot;lexer.ml&quot;</span>
+
+<span style="color:green;">  | 5 -&gt;</span>
+<span style="color:green;"># 51 &quot;lexer.mll&quot;</span>
+<span style="color:green;">                   ( MUL )</span>
+<span style="color:green;"># 218 &quot;lexer.ml&quot;</span>
+
+<span style="color:green;">  | 6 -&gt;</span>
+<span style="color:green;"># 52 &quot;lexer.mll&quot;</span>
+<span style="color:green;">                   ( DIV )</span>
+<span style="color:green;"># 223 &quot;lexer.ml&quot;</span>
+
+<span style="color:green;">  | 7 -&gt;</span>
+<span style="color:green;"># 53 &quot;lexer.mll&quot;</span>
+<span style="color:green;">                   ( LTE )</span>
+<span style="color:green;"># 228 &quot;lexer.ml&quot;</span>
+
+<span style="color:green;">  | 8 -&gt;</span>
+<span style="color:green;"># 54 &quot;lexer.mll&quot;</span>
+<span style="color:green;">                   ( EQ )</span>
+<span style="color:green;"># 233 &quot;lexer.ml&quot;</span>
+
+<span style="color:green;">  | 9 -&gt;</span>
+<span style="color:green;"># 55 &quot;lexer.mll&quot;</span>
+<span style="color:green;">                   ( LPAREN )</span>
+<span style="color:green;"># 238 &quot;lexer.ml&quot;</span>
+
+<span style="color:green;">  | 10 -&gt;</span>
+<span style="color:green;"># 56 &quot;lexer.mll&quot;</span>
+<span style="color:green;">                   ( RPAREN )</span>
+<span style="color:green;"># 243 &quot;lexer.ml&quot;</span>
+
+<span style="color:green;">  | 11 -&gt;</span>
+<span style="color:green;"># 57 &quot;lexer.mll&quot;</span>
+<span style="color:green;">                   ( ASGNOP )</span>
+<span style="color:green;"># 248 &quot;lexer.ml&quot;</span>
+
+<span style="color:green;">  | 12 -&gt;</span>
+<span style="color:green;"># 58 &quot;lexer.mll&quot;</span>
+<span style="color:green;">                   ( SEQ )</span>
+<span style="color:green;"># 253 &quot;lexer.ml&quot;</span>
+
+<span style="color:green;">  | 13 -&gt;</span>
+<span style="color:green;"># 59 &quot;lexer.mll&quot;</span>
+<span style="color:green;">                  ( DEREF )</span>
+<span style="color:green;"># 258 &quot;lexer.ml&quot;</span>
+
+<span style="color:green;">  | 14 -&gt;</span>
+<span style="color:green;">let</span>
+<span style="color:green;"># 60 &quot;lexer.mll&quot;</span>
+<span style="color:green;">                                                         id</span>
+<span style="color:green;"># 264 &quot;lexer.ml&quot;</span>
+<span style="color:green;">= Lexing.sub_lexeme lexbuf lexbuf.Lexing.lex_start_pos lexbuf.Lexing.lex_curr_pos in</span>
+<span style="color:green;"># 61 &quot;lexer.mll&quot;</span>
+<span style="color:green;">                   ( try Hashtbl.find keyword_table id </span>
+<span style="color:green;">                     with Not_found -&gt; LOC(id))</span>
+<span style="color:green;"># 269 &quot;lexer.ml&quot;</span>
+
+<span style="color:green;">  | 15 -&gt;</span>
+<span style="color:green;"># 63 &quot;lexer.mll&quot;</span>
+<span style="color:green;">                   ( EOF )</span>
+<span style="color:green;"># 274 &quot;lexer.ml&quot;</span>
+
+<span style="color:green;">  | 16 -&gt;</span>
+<span style="color:green;"># 64 &quot;lexer.mll&quot;</span>
+<span style="color:green;">                   ( lex_error lexbuf )</span>
+<span style="color:green;"># 279 &quot;lexer.ml&quot;</span>
+
+<span style="color:green;">  | __ocaml_lex_state -&gt; lexbuf.Lexing.refill_buff lexbuf; __ocaml_lex_token_rec lexbuf __ocaml_lex_state</span>
+
+<span style="color:green;">;;</span>
+
+<span style="font-weight:bold;">diff --git a/lexer.mll b/lexer.mll</span>
+<span style="font-weight:bold;">new file mode 100644</span>
+<span style="font-weight:bold;">index 0000000..9ad9c81</span>
+<span style="font-weight:bold;">--- /dev/null</span>
+<span style="font-weight:bold;">+++ b/lexer.mll</span>
+<span style="color:teal;">@@ -0,0 +1,64 @@</span>
+<span style="color:green;">(* File lexer.mll *)</span>
+<span style="color:green;">{</span>
+<span style="color:green;">open Parser        (* The type token is defined in parser.mli *)</span>
+
+<span style="color:green;">exception LexerError of string * string</span>
+<span style="color:green;">exception ParseError of string</span>
+
+<span style="color:green;">(*  Code for maintaining line numbers while tokenizing *)</span>
+
+<span style="color:green;">let incr_linenum lexbuf =</span>
+<span style="color:green;">      let pos = lexbuf.Lexing.lex_curr_p in</span>
+<span style="color:green;">      lexbuf.Lexing.lex_curr_p &lt;- { pos with</span>
+<span style="color:green;">        (* incrementing line number *)</span>
+<span style="color:green;">        Lexing.pos_lnum = pos.Lexing.pos_lnum + 1;</span>
+<span style="color:green;">        (* setting offset for beggining of line *)</span>
+<span style="color:green;">        Lexing.pos_bol = pos.Lexing.pos_cnum;</span>
+<span style="color:green;">      }</span>
+
+<span style="color:green;">let lex_error lexbuf =</span>
+<span style="color:green;">         begin</span>
+<span style="color:green;">           let curr = lexbuf.Lexing.lex_curr_p in</span>
+<span style="color:green;">           let file = curr.Lexing.pos_fname</span>
+<span style="color:green;">           and line = curr.Lexing.pos_lnum</span>
+<span style="color:green;">           and cnum = curr.Lexing.pos_cnum - curr.Lexing.pos_bol</span>
+<span style="color:green;">           and tok = Lexing.lexeme lexbuf in</span>
+<span style="color:green;">              raise (LexerError (Printf.sprintf &quot;%s:%d.%d&quot; file line cnum,tok))</span>
+<span style="color:green;">         end</span>
+
+<span style="color:green;">let keyword_table = Hashtbl.create 20</span>
+<span style="color:green;">  let _ =</span>
+<span style="color:green;">    List.iter (fun (kwd, tok) -&gt; Hashtbl.add keyword_table kwd tok)</span>
+<span style="color:green;">  [( &quot;if&quot;           , IF );</span>
+<span style="color:green;">   ( &quot;then&quot;         , THEN );</span>
+<span style="color:green;">   ( &quot;else&quot;         , ELSE );</span>
+<span style="color:green;">   ( &quot;while&quot;        , WHILE );</span>
+<span style="color:green;">   ( &quot;do&quot;           , DO );</span>
+<span style="color:green;">   ( &quot;done&quot;         , DONE );</span>
+<span style="color:green;">   ( &quot;for&quot;          , FOR );</span>
+<span style="color:green;">   ( &quot;true&quot;         , TRUE );</span>
+<span style="color:green;">   ( &quot;false&quot;        , FALSE );</span>
+<span style="color:green;">   ( &quot;skip&quot;         , SKIP )]</span>
+
+<span style="color:green;">}</span>
+
+<span style="color:green;">rule token = parse</span>
+<span style="color:green;">    [ '\n' ] { incr_linenum lexbuf ; token lexbuf }</span>
+<span style="color:green;">  | [' ' '\t' '\r' ]     { token lexbuf }     (* skip blanks *)</span>
+<span style="color:green;">  | ['-']?['0'-'9']+ as lxm { INT(int_of_string lxm) }</span>
+<span style="color:green;">  | '+'            { PLUS }</span>
+<span style="color:green;">  | '-'            { MINUS }</span>
+<span style="color:green;">  | '*'            { MUL }</span>
+<span style="color:green;">  | '/'            { DIV }</span>
+<span style="color:green;">  | &quot;&lt;=&quot;           { LTE }</span>
+<span style="color:green;">  | &quot;==&quot;           { EQ }</span>
+<span style="color:green;">  | '('            { LPAREN }</span>
+<span style="color:green;">  | ')'            { RPAREN }</span>
+<span style="color:green;">  | &quot;:=&quot;           { ASGNOP }</span>
+<span style="color:green;">  | ';'            { SEQ }</span>
+<span style="color:green;">  | '!'            { DEREF }</span>
+<span style="color:green;">  | ['A'-'Z' 'a'-'z'] ['A'-'Z' 'a'-'z' '0'-'9' '_'] * as id</span>
+<span style="color:green;">                   { try Hashtbl.find keyword_table id </span>
+<span style="color:green;">                     with Not_found -&gt; LOC(id)}</span>
+<span style="color:green;">  | eof            { EOF }</span>
+<span style="color:green;">  | _              { lex_error lexbuf }</span>
+<span style="font-weight:bold;">diff --git a/mem.cmi b/mem.cmi</span>
+<span style="font-weight:bold;">new file mode 100644</span>
+<span style="font-weight:bold;">index 0000000..953b68e</span>
+Binary files /dev/null and b/mem.cmi differ
+<span style="font-weight:bold;">diff --git a/mem.cmo b/mem.cmo</span>
+<span style="font-weight:bold;">new file mode 100644</span>
+<span style="font-weight:bold;">index 0000000..42c04c1</span>
+Binary files /dev/null and b/mem.cmo differ
+<span style="font-weight:bold;">diff --git a/mem.ml b/mem.ml</span>
+<span style="font-weight:bold;">new file mode 100644</span>
+<span style="font-weight:bold;">index 0000000..441a5ce</span>
+<span style="font-weight:bold;">--- /dev/null</span>
+<span style="font-weight:bold;">+++ b/mem.ml</span>
+<span style="color:teal;">@@ -0,0 +1,16 @@</span>
+<span style="color:green;">let rec lookup x = function</span>
+<span style="color:green;">  | [] -&gt; raise Not_found</span>
+<span style="color:green;">  | (y,v)::_ when x=y -&gt; v</span>
+<span style="color:green;">  | _::s -&gt; lookup x s</span>
+
+<span style="color:green;">let rec update (x,n) = function</span>
+<span style="color:green;">  | [] -&gt; raise Not_found</span>
+<span style="color:green;">  | (y,v)::s  when x=y -&gt; ((x,n)::s)</span>
+<span style="color:green;">  | h::t -&gt; h::(update (x,n) t)</span>
+
+<span style="color:green;">let string_of_mem = </span>
+<span style="color:green;">  let string_of_pair (x,v) = x ^ &quot; |-&gt; &quot; ^ string_of_int v in</span>
+<span style="color:green;">  let rec string_of_mem str = function</span>
+<span style="color:green;">  | [] -&gt; str</span>
+<span style="color:green;">  | p::t -&gt; string_of_mem (str ^ &quot;; &quot; ^ string_of_pair p) t</span>
+<span style="color:green;">  in function [] -&gt; &quot;&quot; | p::t -&gt; string_of_mem (string_of_pair p) t</span>
+<span style="font-weight:bold;">diff --git a/parser.cmi b/parser.cmi</span>
+<span style="font-weight:bold;">new file mode 100644</span>
+<span style="font-weight:bold;">index 0000000..484b6c0</span>
+Binary files /dev/null and b/parser.cmi differ
+<span style="font-weight:bold;">diff --git a/parser.cmo b/parser.cmo</span>
+<span style="font-weight:bold;">new file mode 100644</span>
+<span style="font-weight:bold;">index 0000000..6251a3f</span>
+Binary files /dev/null and b/parser.cmo differ
+<span style="font-weight:bold;">diff --git a/parser.ml b/parser.ml</span>
+<span style="font-weight:bold;">new file mode 100644</span>
+<span style="font-weight:bold;">index 0000000..34faea9</span>
+<span style="font-weight:bold;">--- /dev/null</span>
+<span style="font-weight:bold;">+++ b/parser.ml</span>
+<span style="color:teal;">@@ -0,0 +1,407 @@</span>
+<span style="color:green;">type token =</span>
+<span style="color:green;">  | INT of (int)</span>
+<span style="color:green;">  | LOC of (string)</span>
+<span style="color:green;">  | TRUE</span>
+<span style="color:green;">  | FALSE</span>
+<span style="color:green;">  | SEQ</span>
+<span style="color:green;">  | SKIP</span>
+<span style="color:green;">  | IF</span>
+<span style="color:green;">  | THEN</span>
+<span style="color:green;">  | ELSE</span>
+<span style="color:green;">  | WHILE</span>
+<span style="color:green;">  | DO</span>
+<span style="color:green;">  | DONE</span>
+<span style="color:green;">  | FOR</span>
+<span style="color:green;">  | LTE</span>
+<span style="color:green;">  | EQ</span>
+<span style="color:green;">  | ASGNOP</span>
+<span style="color:green;">  | DEREF</span>
+<span style="color:green;">  | PLUS</span>
+<span style="color:green;">  | MINUS</span>
+<span style="color:green;">  | MUL</span>
+<span style="color:green;">  | DIV</span>
+<span style="color:green;">  | LPAREN</span>
+<span style="color:green;">  | RPAREN</span>
+<span style="color:green;">  | EOF</span>
+
+<span style="color:green;">open Parsing;;</span>
+<span style="color:green;">let _ = parse_error;;</span>
+<span style="color:green;"># 3 &quot;parser.mly&quot;</span>
+<span style="color:green;">open ImpAST</span>
+<span style="color:green;">open Lexing</span>
+
+<span style="color:green;">let location () =  let start_pos = Parsing.symbol_start_pos () in</span>
+<span style="color:green;">    let end_pos = Parsing.symbol_end_pos () in</span>
+<span style="color:green;">    Printf.sprintf &quot;%s:%d.%d-%d.%d&quot;</span>
+<span style="color:green;">      start_pos.pos_fname</span>
+<span style="color:green;">      start_pos.pos_lnum (start_pos.pos_cnum - start_pos.pos_bol)</span>
+<span style="color:green;">      end_pos.pos_lnum (end_pos.pos_cnum - end_pos.pos_bol)</span>
+
+<span style="color:green;">let parseError loc = raise (Lexer.ParseError loc)</span>
+
+<span style="color:green;"># 43 &quot;parser.ml&quot;</span>
+<span style="color:green;">let yytransl_const = [|</span>
+<span style="color:green;">  259 (* TRUE *);</span>
+<span style="color:green;">  260 (* FALSE *);</span>
+<span style="color:green;">  261 (* SEQ *);</span>
+<span style="color:green;">  262 (* SKIP *);</span>
+<span style="color:green;">  263 (* IF *);</span>
+<span style="color:green;">  264 (* THEN *);</span>
+<span style="color:green;">  265 (* ELSE *);</span>
+<span style="color:green;">  266 (* WHILE *);</span>
+<span style="color:green;">  267 (* DO *);</span>
+<span style="color:green;">  268 (* DONE *);</span>
+<span style="color:green;">  269 (* FOR *);</span>
+<span style="color:green;">  270 (* LTE *);</span>
+<span style="color:green;">  271 (* EQ *);</span>
+<span style="color:green;">  272 (* ASGNOP *);</span>
+<span style="color:green;">  273 (* DEREF *);</span>
+<span style="color:green;">  274 (* PLUS *);</span>
+<span style="color:green;">  275 (* MINUS *);</span>
+<span style="color:green;">  276 (* MUL *);</span>
+<span style="color:green;">  277 (* DIV *);</span>
+<span style="color:green;">  278 (* LPAREN *);</span>
+<span style="color:green;">  279 (* RPAREN *);</span>
+<span style="color:green;">    0 (* EOF *);</span>
+<span style="color:green;">    0|]</span>
+
+<span style="color:green;">let yytransl_block = [|</span>
+<span style="color:green;">  257 (* INT *);</span>
+<span style="color:green;">  258 (* LOC *);</span>
+<span style="color:green;">    0|]</span>
+
+<span style="color:green;">let yylhs = &quot;\255\255\</span>
+<span style="color:green;">\001\000\002\000\002\000\002\000\002\000\002\000\002\000\002\000\</span>
+<span style="color:green;">\002\000\002\000\002\000\002\000\002\000\002\000\002\000\002\000\</span>
+<span style="color:green;">\002\000\002\000\002\000\000\000&quot;</span>
+
+<span style="color:green;">let yylen = &quot;\002\000\</span>
+<span style="color:green;">\002\000\001\000\001\000\001\000\001\000\003\000\003\000\003\000\</span>
+<span style="color:green;">\003\000\003\000\002\000\003\000\003\000\003\000\003\000\006\000\</span>
+<span style="color:green;">\005\000\009\000\001\000\002\000&quot;</span>
+
+<span style="color:green;">let yydefred = &quot;\000\000\</span>
+<span style="color:green;">\000\000\000\000\019\000\002\000\000\000\003\000\004\000\005\000\</span>
+<span style="color:green;">\000\000\000\000\000\000\000\000\000\000\020\000\000\000\000\000\</span>
+<span style="color:green;">\000\000\000\000\000\000\011\000\000\000\000\000\000\000\000\000\</span>
+<span style="color:green;">\000\000\000\000\000\000\000\000\001\000\000\000\000\000\000\000\</span>
+<span style="color:green;">\000\000\006\000\000\000\000\000\000\000\000\000\000\000\009\000\</span>
+<span style="color:green;">\010\000\000\000\000\000\000\000\000\000\017\000\000\000\000\000\</span>
+<span style="color:green;">\000\000\000\000\000\000\000\000&quot;</span>
+
+<span style="color:green;">let yydgoto = &quot;\002\000\</span>
+<span style="color:green;">\014\000\015\000&quot;</span>
+
+<span style="color:green;">let yysindex = &quot;\009\000\</span>
+<span style="color:green;">\068\255\000\000\000\000\000\000\251\254\000\000\000\000\000\000\</span>
+<span style="color:green;">\068\255\068\255\234\254\011\255\068\255\000\000\077\000\068\255\</span>
+<span style="color:green;">\091\255\102\255\068\255\000\000\037\255\068\255\068\255\068\255\</span>
+<span style="color:green;">\068\255\068\255\068\255\068\255\000\000\240\254\068\255\068\255\</span>
+<span style="color:green;">\129\255\000\000\140\255\240\254\240\254\242\254\242\254\000\000\</span>
+<span style="color:green;">\000\000\110\255\121\255\068\255\068\255\000\000\148\255\156\255\</span>
+<span style="color:green;">\068\255\074\255\068\255\156\255&quot;</span>
+
+<span style="color:green;">let yyrindex = &quot;\000\000\</span>
+<span style="color:green;">\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span>
+<span style="color:green;">\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span>
+<span style="color:green;">\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span>
+<span style="color:green;">\000\000\000\000\000\000\000\000\000\000\033\000\000\000\000\000\</span>
+<span style="color:green;">\000\000\000\000\067\000\041\000\046\000\001\000\017\000\000\000\</span>
+<span style="color:green;">\000\000\000\000\000\000\000\000\000\000\000\000\000\000\054\000\</span>
+<span style="color:green;">\000\000\000\000\000\000\062\000&quot;</span>
+
+<span style="color:green;">let yygindex = &quot;\000\000\</span>
+<span style="color:green;">\000\000\255\255&quot;</span>
+
+<span style="color:green;">let yytablesize = 354</span>
+<span style="color:green;">let yytable = &quot;\019\000\</span>
+<span style="color:green;">\007\000\025\000\026\000\027\000\028\000\027\000\028\000\017\000\</span>
+<span style="color:green;">\018\000\001\000\016\000\021\000\020\000\000\000\030\000\000\000\</span>
+<span style="color:green;">\008\000\033\000\000\000\000\000\035\000\036\000\037\000\038\000\</span>
+<span style="color:green;">\039\000\040\000\041\000\000\000\000\000\042\000\043\000\000\000\</span>
+<span style="color:green;">\012\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span>
+<span style="color:green;">\013\000\022\000\047\000\048\000\000\000\014\000\000\000\050\000\</span>
+<span style="color:green;">\000\000\052\000\023\000\024\000\000\000\016\000\025\000\026\000\</span>
+<span style="color:green;">\027\000\028\000\000\000\034\000\000\000\018\000\000\000\000\000\</span>
+<span style="color:green;">\000\000\000\000\015\000\003\000\004\000\005\000\006\000\007\000\</span>
+<span style="color:green;">\000\000\008\000\009\000\000\000\029\000\010\000\022\000\000\000\</span>
+<span style="color:green;">\011\000\000\000\000\000\000\000\012\000\000\000\000\000\023\000\</span>
+<span style="color:green;">\024\000\013\000\000\000\025\000\026\000\027\000\028\000\022\000\</span>
+<span style="color:green;">\051\000\000\000\031\000\000\000\000\000\000\000\000\000\000\000\</span>
+<span style="color:green;">\023\000\024\000\022\000\000\000\025\000\026\000\027\000\028\000\</span>
+<span style="color:green;">\032\000\000\000\022\000\023\000\024\000\000\000\045\000\025\000\</span>
+<span style="color:green;">\026\000\027\000\028\000\023\000\024\000\022\000\000\000\025\000\</span>
+<span style="color:green;">\026\000\027\000\028\000\000\000\046\000\044\000\023\000\024\000\</span>
+<span style="color:green;">\000\000\000\000\025\000\026\000\027\000\028\000\023\000\024\000\</span>
+<span style="color:green;">\022\000\000\000\025\000\026\000\027\000\028\000\000\000\000\000\</span>
+<span style="color:green;">\049\000\023\000\024\000\000\000\000\000\025\000\026\000\027\000\</span>
+<span style="color:green;">\028\000\023\000\024\000\000\000\000\000\025\000\026\000\027\000\</span>
+<span style="color:green;">\028\000\023\000\024\000\000\000\000\000\025\000\026\000\027\000\</span>
+<span style="color:green;">\028\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span>
+<span style="color:green;">\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span>
+<span style="color:green;">\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span>
+<span style="color:green;">\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span>
+<span style="color:green;">\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span>
+<span style="color:green;">\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span>
+<span style="color:green;">\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span>
+<span style="color:green;">\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span>
+<span style="color:green;">\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span>
+<span style="color:green;">\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\</span>
+<span style="color:green;">\000\000\000\000\000\000\000\000\000\000\007\000\000\000\000\000\</span>
+<span style="color:green;">\007\000\007\000\000\000\007\000\007\000\000\000\007\000\007\000\</span>
+<span style="color:green;">\000\000\000\000\007\000\007\000\000\000\008\000\000\000\007\000\</span>
+<span style="color:green;">\008\000\008\000\000\000\008\000\008\000\000\000\008\000\008\000\</span>
+<span style="color:green;">\000\000\000\000\008\000\008\000\000\000\012\000\000\000\008\000\</span>
+<span style="color:green;">\012\000\012\000\000\000\012\000\012\000\013\000\012\000\012\000\</span>
+<span style="color:green;">\013\000\013\000\014\000\013\000\013\000\014\000\014\000\012\000\</span>
+<span style="color:green;">\014\000\014\000\016\000\000\000\000\000\016\000\016\000\013\000\</span>
+<span style="color:green;">\016\000\016\000\018\000\000\000\014\000\018\000\018\000\000\000\</span>
+<span style="color:green;">\018\000\018\000\015\000\015\000\016\000\015\000\015\000\000\000\</span>
+<span style="color:green;">\000\000\022\000\000\000\000\000\018\000\000\000\000\000\000\000\</span>
+<span style="color:green;">\000\000\015\000\023\000\024\000\000\000\000\000\025\000\026\000\</span>
+<span style="color:green;">\027\000\028\000&quot;</span>
+
+<span style="color:green;">let yycheck = &quot;\022\001\</span>
+<span style="color:green;">\000\000\018\001\019\001\020\001\021\001\020\001\021\001\009\000\</span>
+<span style="color:green;">\010\000\001\000\016\001\013\000\002\001\255\255\016\000\255\255\</span>
+<span style="color:green;">\000\000\019\000\255\255\255\255\022\000\023\000\024\000\025\000\</span>
+<span style="color:green;">\026\000\027\000\028\000\255\255\255\255\031\000\032\000\255\255\</span>
+<span style="color:green;">\000\000\255\255\255\255\255\255\255\255\255\255\255\255\255\255\</span>
+<span style="color:green;">\000\000\005\001\044\000\045\000\255\255\000\000\255\255\049\000\</span>
+<span style="color:green;">\255\255\051\000\014\001\015\001\255\255\000\000\018\001\019\001\</span>
+<span style="color:green;">\020\001\021\001\255\255\023\001\255\255\000\000\255\255\255\255\</span>
+<span style="color:green;">\255\255\255\255\000\000\000\001\001\001\002\001\003\001\004\001\</span>
+<span style="color:green;">\255\255\006\001\007\001\255\255\000\000\010\001\005\001\255\255\</span>
+<span style="color:green;">\013\001\255\255\255\255\255\255\017\001\255\255\255\255\014\001\</span>
+<span style="color:green;">\015\001\022\001\255\255\018\001\019\001\020\001\021\001\005\001\</span>
+<span style="color:green;">\023\001\255\255\008\001\255\255\255\255\255\255\255\255\255\255\</span>
+<span style="color:green;">\014\001\015\001\005\001\255\255\018\001\019\001\020\001\021\001\</span>
+<span style="color:green;">\011\001\255\255\005\001\014\001\015\001\255\255\009\001\018\001\</span>
+<span style="color:green;">\019\001\020\001\021\001\014\001\015\001\005\001\255\255\018\001\</span>
+<span style="color:green;">\019\001\020\001\021\001\255\255\012\001\005\001\014\001\015\001\</span>
+<span style="color:green;">\255\255\255\255\018\001\019\001\020\001\021\001\014\001\015\001\</span>
+<span style="color:green;">\005\001\255\255\018\001\019\001\020\001\021\001\255\255\255\255\</span>
+<span style="color:green;">\005\001\014\001\015\001\255\255\255\255\018\001\019\001\020\001\</span>
+<span style="color:green;">\021\001\014\001\015\001\255\255\255\255\018\001\019\001\020\001\</span>
+<span style="color:green;">\021\001\014\001\015\001\255\255\255\255\018\001\019\001\020\001\</span>
+<span style="color:green;">\021\001\255\255\255\255\255\255\255\255\255\255\255\255\255\255\</span>
+<span style="color:green;">\255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\</span>
+<span style="color:green;">\255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\</span>
+<span style="color:green;">\255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\</span>
+<span style="color:green;">\255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\</span>
+<span style="color:green;">\255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\</span>
+<span style="color:green;">\255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\</span>
+<span style="color:green;">\255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\</span>
+<span style="color:green;">\255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\</span>
+<span style="color:green;">\255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\</span>
+<span style="color:green;">\255\255\255\255\255\255\255\255\255\255\005\001\255\255\255\255\</span>
+<span style="color:green;">\008\001\009\001\255\255\011\001\012\001\255\255\014\001\015\001\</span>
+<span style="color:green;">\255\255\255\255\018\001\019\001\255\255\005\001\255\255\023\001\</span>
+<span style="color:green;">\008\001\009\001\255\255\011\001\012\001\255\255\014\001\015\001\</span>
+<span style="color:green;">\255\255\255\255\018\001\019\001\255\255\005\001\255\255\023\001\</span>
+<span style="color:green;">\008\001\009\001\255\255\011\001\012\001\005\001\014\001\015\001\</span>
+<span style="color:green;">\008\001\009\001\005\001\011\001\012\001\008\001\009\001\023\001\</span>
+<span style="color:green;">\011\001\012\001\005\001\255\255\255\255\008\001\009\001\023\001\</span>
+<span style="color:green;">\011\001\012\001\005\001\255\255\023\001\008\001\009\001\255\255\</span>
+<span style="color:green;">\011\001\012\001\008\001\009\001\023\001\011\001\012\001\255\255\</span>
+<span style="color:green;">\255\255\005\001\255\255\255\255\023\001\255\255\255\255\255\255\</span>
+<span style="color:green;">\255\255\023\001\014\001\015\001\255\255\255\255\018\001\019\001\</span>
+<span style="color:green;">\020\001\021\001&quot;</span>
+
+<span style="color:green;">let yynames_const = &quot;\</span>
+<span style="color:green;">  TRUE\000\</span>
+<span style="color:green;">  FALSE\000\</span>
+<span style="color:green;">  SEQ\000\</span>
+<span style="color:green;">  SKIP\000\</span>
+<span style="color:green;">  IF\000\</span>
+<span style="color:green;">  THEN\000\</span>
+<span style="color:green;">  ELSE\000\</span>
+<span style="color:green;">  WHILE\000\</span>
+<span style="color:green;">  DO\000\</span>
+<span style="color:green;">  DONE\000\</span>
+<span style="color:green;">  FOR\000\</span>
+<span style="color:green;">  LTE\000\</span>
+<span style="color:green;">  EQ\000\</span>
+<span style="color:green;">  ASGNOP\000\</span>
+<span style="color:green;">  DEREF\000\</span>
+<span style="color:green;">  PLUS\000\</span>
+<span style="color:green;">  MINUS\000\</span>
+<span style="color:green;">  MUL\000\</span>
+<span style="color:green;">  DIV\000\</span>
+<span style="color:green;">  LPAREN\000\</span>
+<span style="color:green;">  RPAREN\000\</span>
+<span style="color:green;">  EOF\000\</span>
+<span style="color:green;">  &quot;</span>
+
+<span style="color:green;">let yynames_block = &quot;\</span>
+<span style="color:green;">  INT\000\</span>
+<span style="color:green;">  LOC\000\</span>
+<span style="color:green;">  &quot;</span>
+
+<span style="color:green;">let yyact = [|</span>
+<span style="color:green;">  (fun _ -&gt; failwith &quot;parser&quot;)</span>
+<span style="color:green;">; (fun __caml_parser_env -&gt;</span>
+<span style="color:green;">    let _1 = (Parsing.peek_val __caml_parser_env 1 : 'expr) in</span>
+<span style="color:green;">    Obj.repr(</span>
+<span style="color:green;"># 40 &quot;parser.mly&quot;</span>
+<span style="color:green;">                            ( _1 )</span>
+<span style="color:green;"># 249 &quot;parser.ml&quot;</span>
+<span style="color:green;">               : ImpAST.expr))</span>
+<span style="color:green;">; (fun __caml_parser_env -&gt;</span>
+<span style="color:green;">    let _1 = (Parsing.peek_val __caml_parser_env 0 : int) in</span>
+<span style="color:green;">    Obj.repr(</span>
+<span style="color:green;"># 43 &quot;parser.mly&quot;</span>
+<span style="color:green;">                               ( Int (_1,location()) )</span>
+<span style="color:green;"># 256 &quot;parser.ml&quot;</span>
+<span style="color:green;">               : 'expr))</span>
+<span style="color:green;">; (fun __caml_parser_env -&gt;</span>
+<span style="color:green;">    Obj.repr(</span>
+<span style="color:green;"># 44 &quot;parser.mly&quot;</span>
+<span style="color:green;">                               ( Bool (true, location()) )</span>
+<span style="color:green;"># 262 &quot;parser.ml&quot;</span>
+<span style="color:green;">               : 'expr))</span>
+<span style="color:green;">; (fun __caml_parser_env -&gt;</span>
+<span style="color:green;">    Obj.repr(</span>
+<span style="color:green;"># 45 &quot;parser.mly&quot;</span>
+<span style="color:green;">                               ( Bool (false, location()) )</span>
+<span style="color:green;"># 268 &quot;parser.ml&quot;</span>
+<span style="color:green;">               : 'expr))</span>
+<span style="color:green;">; (fun __caml_parser_env -&gt;</span>
+<span style="color:green;">    Obj.repr(</span>
+<span style="color:green;"># 46 &quot;parser.mly&quot;</span>
+<span style="color:green;">                               ( Skip (location()) )</span>
+<span style="color:green;"># 274 &quot;parser.ml&quot;</span>
+<span style="color:green;">               : 'expr))</span>
+<span style="color:green;">; (fun __caml_parser_env -&gt;</span>
+<span style="color:green;">    let _2 = (Parsing.peek_val __caml_parser_env 1 : 'expr) in</span>
+<span style="color:green;">    Obj.repr(</span>
+<span style="color:green;"># 47 &quot;parser.mly&quot;</span>
+<span style="color:green;">                               ( _2 )</span>
+<span style="color:green;"># 281 &quot;parser.ml&quot;</span>
+<span style="color:green;">               : 'expr))</span>
+<span style="color:green;">; (fun __caml_parser_env -&gt;</span>
+<span style="color:green;">    let _1 = (Parsing.peek_val __caml_parser_env 2 : 'expr) in</span>
+<span style="color:green;">    let _3 = (Parsing.peek_val __caml_parser_env 0 : 'expr) in</span>
+<span style="color:green;">    Obj.repr(</span>
+<span style="color:green;"># 48 &quot;parser.mly&quot;</span>
+<span style="color:green;">                               ( Op (_1,Plus,_3, location()) )</span>
+<span style="color:green;"># 289 &quot;parser.ml&quot;</span>
+<span style="color:green;">               : 'expr))</span>
+<span style="color:green;">; (fun __caml_parser_env -&gt;</span>
+<span style="color:green;">    let _1 = (Parsing.peek_val __caml_parser_env 2 : 'expr) in</span>
+<span style="color:green;">    let _3 = (Parsing.peek_val __caml_parser_env 0 : 'expr) in</span>
+<span style="color:green;">    Obj.repr(</span>
+<span style="color:green;"># 49 &quot;parser.mly&quot;</span>
+<span style="color:green;">                                ( Op (_1,Minus,_3, location()) )</span>
+<span style="color:green;"># 297 &quot;parser.ml&quot;</span>
+<span style="color:green;">               : 'expr))</span>
+<span style="color:green;">; (fun __caml_parser_env -&gt;</span>
+<span style="color:green;">    let _1 = (Parsing.peek_val __caml_parser_env 2 : 'expr) in</span>
+<span style="color:green;">    let _3 = (Parsing.peek_val __caml_parser_env 0 : 'expr) in</span>
+<span style="color:green;">    Obj.repr(</span>
+<span style="color:green;"># 50 &quot;parser.mly&quot;</span>
+<span style="color:green;">                              ( Op (_1,Mul,_3, location()) )</span>
+<span style="color:green;"># 305 &quot;parser.ml&quot;</span>
+<span style="color:green;">               : 'expr))</span>
+<span style="color:green;">; (fun __caml_parser_env -&gt;</span>
+<span style="color:green;">    let _1 = (Parsing.peek_val __caml_parser_env 2 : 'expr) in</span>
+<span style="color:green;">    let _3 = (Parsing.peek_val __caml_parser_env 0 : 'expr) in</span>
+<span style="color:green;">    Obj.repr(</span>
+<span style="color:green;"># 51 &quot;parser.mly&quot;</span>
+<span style="color:green;">                              ( Op (_1,Div,_3, location()) )</span>
+<span style="color:green;"># 313 &quot;parser.ml&quot;</span>
+<span style="color:green;">               : 'expr))</span>
+<span style="color:green;">; (fun __caml_parser_env -&gt;</span>
+<span style="color:green;">    let _2 = (Parsing.peek_val __caml_parser_env 0 : string) in</span>
+<span style="color:green;">    Obj.repr(</span>
+<span style="color:green;"># 52 &quot;parser.mly&quot;</span>
+<span style="color:green;">                               ( Loc (_2, location()) )</span>
+<span style="color:green;"># 320 &quot;parser.ml&quot;</span>
+<span style="color:green;">               : 'expr))</span>
+<span style="color:green;">; (fun __caml_parser_env -&gt;</span>
+<span style="color:green;">    let _1 = (Parsing.peek_val __caml_parser_env 2 : string) in</span>
+<span style="color:green;">    let _3 = (Parsing.peek_val __caml_parser_env 0 : 'expr) in</span>
+<span style="color:green;">    Obj.repr(</span>
+<span style="color:green;"># 53 &quot;parser.mly&quot;</span>
+<span style="color:green;">                               ( Atrib (_1,_3, location()) )</span>
+<span style="color:green;"># 328 &quot;parser.ml&quot;</span>
+<span style="color:green;">               : 'expr))</span>
+<span style="color:green;">; (fun __caml_parser_env -&gt;</span>
+<span style="color:green;">    let _1 = (Parsing.peek_val __caml_parser_env 2 : 'expr) in</span>
+<span style="color:green;">    let _3 = (Parsing.peek_val __caml_parser_env 0 : 'expr) in</span>
+<span style="color:green;">    Obj.repr(</span>
+<span style="color:green;"># 54 &quot;parser.mly&quot;</span>
+<span style="color:green;">                               ( Op (_1, Mic, _3, location()) )</span>
+<span style="color:green;"># 336 &quot;parser.ml&quot;</span>
+<span style="color:green;">               : 'expr))</span>
+<span style="color:green;">; (fun __caml_parser_env -&gt;</span>
+<span style="color:green;">    let _1 = (Parsing.peek_val __caml_parser_env 2 : 'expr) in</span>
+<span style="color:green;">    let _3 = (Parsing.peek_val __caml_parser_env 0 : 'expr) in</span>
+<span style="color:green;">    Obj.repr(</span>
+<span style="color:green;"># 55 &quot;parser.mly&quot;</span>
+<span style="color:green;">                              ( Op (_1, Egal, _3, location()) )</span>
+<span style="color:green;"># 344 &quot;parser.ml&quot;</span>
+<span style="color:green;">               : 'expr))</span>
+<span style="color:green;">; (fun __caml_parser_env -&gt;</span>
+<span style="color:green;">    let _1 = (Parsing.peek_val __caml_parser_env 2 : 'expr) in</span>
+<span style="color:green;">    let _3 = (Parsing.peek_val __caml_parser_env 0 : 'expr) in</span>
+<span style="color:green;">    Obj.repr(</span>
+<span style="color:green;"># 56 &quot;parser.mly&quot;</span>
+<span style="color:green;">                               ( Secv (_1,_3, location()) )</span>
+<span style="color:green;"># 352 &quot;parser.ml&quot;</span>
+<span style="color:green;">               : 'expr))</span>
+<span style="color:green;">; (fun __caml_parser_env -&gt;</span>
+<span style="color:green;">    let _2 = (Parsing.peek_val __caml_parser_env 4 : 'expr) in</span>
+<span style="color:green;">    let _4 = (Parsing.peek_val __caml_parser_env 2 : 'expr) in</span>
+<span style="color:green;">    let _6 = (Parsing.peek_val __caml_parser_env 0 : 'expr) in</span>
+<span style="color:green;">    Obj.repr(</span>
+<span style="color:green;"># 58 &quot;parser.mly&quot;</span>
+<span style="color:green;">                               ( If (_2, _4, _6, location()) )</span>
+<span style="color:green;"># 361 &quot;parser.ml&quot;</span>
+<span style="color:green;">               : 'expr))</span>
+<span style="color:green;">; (fun __caml_parser_env -&gt;</span>
+<span style="color:green;">    let _2 = (Parsing.peek_val __caml_parser_env 3 : 'expr) in</span>
+<span style="color:green;">    let _4 = (Parsing.peek_val __caml_parser_env 1 : 'expr) in</span>
+<span style="color:green;">    Obj.repr(</span>
+<span style="color:green;"># 59 &quot;parser.mly&quot;</span>
+<span style="color:green;">                               ( While (_2, _4, location()) )</span>
+<span style="color:green;"># 369 &quot;parser.ml&quot;</span>
+<span style="color:green;">               : 'expr))</span>
+<span style="color:green;">; (fun __caml_parser_env -&gt;</span>
+<span style="color:green;">    let _3 = (Parsing.peek_val __caml_parser_env 6 : 'expr) in</span>
+<span style="color:green;">    let _5 = (Parsing.peek_val __caml_parser_env 4 : 'expr) in</span>
+<span style="color:green;">    let _7 = (Parsing.peek_val __caml_parser_env 2 : 'expr) in</span>
+<span style="color:green;">    let _9 = (Parsing.peek_val __caml_parser_env 0 : 'expr) in</span>
+<span style="color:green;">    Obj.repr(</span>
+<span style="color:green;"># 61 &quot;parser.mly&quot;</span>
+<span style="color:green;">                               ( For (_3, _5, _7, _9, location()) )</span>
+<span style="color:green;"># 379 &quot;parser.ml&quot;</span>
+<span style="color:green;">               : 'expr))</span>
+<span style="color:green;">; (fun __caml_parser_env -&gt;</span>
+<span style="color:green;">    Obj.repr(</span>
+<span style="color:green;"># 62 &quot;parser.mly&quot;</span>
+<span style="color:green;">                               ( parseError (location ()) )</span>
+<span style="color:green;"># 385 &quot;parser.ml&quot;</span>
+<span style="color:green;">               : 'expr))</span>
+<span style="color:green;">(* Entry main *)</span>
+<span style="color:green;">; (fun __caml_parser_env -&gt; raise (Parsing.YYexit (Parsing.peek_val __caml_parser_env 0)))</span>
+<span style="color:green;">|]</span>
+<span style="color:green;">let yytables =</span>
+<span style="color:green;">  { Parsing.actions=yyact;</span>
+<span style="color:green;">    Parsing.transl_const=yytransl_const;</span>
+<span style="color:green;">    Parsing.transl_block=yytransl_block;</span>
+<span style="color:green;">    Parsing.lhs=yylhs;</span>
+<span style="color:green;">    Parsing.len=yylen;</span>
+<span style="color:green;">    Parsing.defred=yydefred;</span>
+<span style="color:green;">    Parsing.dgoto=yydgoto;</span>
+<span style="color:green;">    Parsing.sindex=yysindex;</span>
+<span style="color:green;">    Parsing.rindex=yyrindex;</span>
+<span style="color:green;">    Parsing.gindex=yygindex;</span>
+<span style="color:green;">    Parsing.tablesize=yytablesize;</span>
+<span style="color:green;">    Parsing.table=yytable;</span>
+<span style="color:green;">    Parsing.check=yycheck;</span>
+<span style="color:green;">    Parsing.error_function=parse_error;</span>
+<span style="color:green;">    Parsing.names_const=yynames_const;</span>
+<span style="color:green;">    Parsing.names_block=yynames_block }</span>
+<span style="color:green;">let main (lexfun : Lexing.lexbuf -&gt; token) (lexbuf : Lexing.lexbuf) =</span>
+<span style="color:green;">   (Parsing.yyparse yytables 1 lexfun lexbuf : ImpAST.expr)</span>
+<span style="font-weight:bold;">diff --git a/parser.mli b/parser.mli</span>
+<span style="font-weight:bold;">new file mode 100644</span>
+<span style="font-weight:bold;">index 0000000..5c2a2f3</span>
+<span style="font-weight:bold;">--- /dev/null</span>
+<span style="font-weight:bold;">+++ b/parser.mli</span>
+<span style="color:teal;">@@ -0,0 +1,28 @@</span>
+<span style="color:green;">type token =</span>
+<span style="color:green;">  | INT of (int)</span>
+<span style="color:green;">  | LOC of (string)</span>
+<span style="color:green;">  | TRUE</span>
+<span style="color:green;">  | FALSE</span>
+<span style="color:green;">  | SEQ</span>
+<span style="color:green;">  | SKIP</span>
+<span style="color:green;">  | IF</span>
+<span style="color:green;">  | THEN</span>
+<span style="color:green;">  | ELSE</span>
+<span style="color:green;">  | WHILE</span>
+<span style="color:green;">  | DO</span>
+<span style="color:green;">  | DONE</span>
+<span style="color:green;">  | FOR</span>
+<span style="color:green;">  | LTE</span>
+<span style="color:green;">  | EQ</span>
+<span style="color:green;">  | ASGNOP</span>
+<span style="color:green;">  | DEREF</span>
+<span style="color:green;">  | PLUS</span>
+<span style="color:green;">  | MINUS</span>
+<span style="color:green;">  | MUL</span>
+<span style="color:green;">  | DIV</span>
+<span style="color:green;">  | LPAREN</span>
+<span style="color:green;">  | RPAREN</span>
+<span style="color:green;">  | EOF</span>
+
+<span style="color:green;">val main :</span>
+<span style="color:green;">  (Lexing.lexbuf  -&gt; token) -&gt; Lexing.lexbuf -&gt; ImpAST.expr</span>
+<span style="font-weight:bold;">diff --git a/parser.mly b/parser.mly</span>
+<span style="font-weight:bold;">new file mode 100644</span>
+<span style="font-weight:bold;">index 0000000..27c6137</span>
+<span style="font-weight:bold;">--- /dev/null</span>
+<span style="font-weight:bold;">+++ b/parser.mly</span>
+<span style="color:teal;">@@ -0,0 +1,64 @@</span>
+<span style="color:green;">/* File parser.mly */</span>
+<span style="color:green;">%{</span>
+<span style="color:green;">open ImpAST</span>
+<span style="color:green;">open Lexing</span>
+
+<span style="color:green;">let location () =  let start_pos = Parsing.symbol_start_pos () in</span>
+<span style="color:green;">    let end_pos = Parsing.symbol_end_pos () in</span>
+<span style="color:green;">    Printf.sprintf &quot;%s:%d.%d-%d.%d&quot;</span>
+<span style="color:green;">      start_pos.pos_fname</span>
+<span style="color:green;">      start_pos.pos_lnum (start_pos.pos_cnum - start_pos.pos_bol)</span>
+<span style="color:green;">      end_pos.pos_lnum (end_pos.pos_cnum - end_pos.pos_bol)</span>
+
+<span style="color:green;">let parseError loc = raise (Lexer.ParseError loc)</span>
+
+<span style="color:green;">%}</span>
+<span style="color:green;">%token &lt;int&gt; INT</span>
+<span style="color:green;">%token &lt;string&gt; LOC</span>
+<span style="color:green;">%token TRUE FALSE</span>
+<span style="color:green;">%token SEQ SKIP</span>
+<span style="color:green;">%token IF THEN ELSE</span>
+<span style="color:green;">%token WHILE DO DONE</span>
+<span style="color:green;">%token FOR</span>
+<span style="color:green;">%token LTE EQ</span>
+<span style="color:green;">%token ASGNOP DEREF</span>
+<span style="color:green;">%token PLUS MINUS MUL DIV</span>
+<span style="color:green;">%token LPAREN RPAREN</span>
+<span style="color:green;">%token EOF</span>
+<span style="color:green;">%right SEQ /* lowest precedence */</span>
+<span style="color:green;">%nonassoc FORX</span>
+<span style="color:green;">%nonassoc IFX</span>
+<span style="color:green;">%nonassoc LTE EQ</span>
+<span style="color:green;">%right ASGNOP</span>
+<span style="color:green;">%left PLUS MINUS</span>
+<span style="color:green;">%left MUL DIV</span>
+<span style="color:green;">%nonassoc DEREF       /* highest precedence */</span>
+<span style="color:green;">%start main             /* the entry point */</span>
+<span style="color:green;">%type &lt;ImpAST.expr&gt; main</span>
+<span style="color:green;">%%</span>
+<span style="color:green;">main:</span>
+<span style="color:green;">    expr EOF                { $1 }</span>
+<span style="color:green;">;</span>
+<span style="color:green;">expr:</span>
+<span style="color:green;">    INT                        { Int ($1,location()) }</span>
+<span style="color:green;">  | FLOAT                      { Float ($1,location()) }</span>
+<span style="color:green;">  | TRUE                       { Bool (true, location()) }</span>
+<span style="color:green;">  | FALSE                      { Bool (false, location()) }</span>
+<span style="color:green;">  | SKIP                       { Skip (location()) }</span>
+<span style="color:green;">  | LPAREN expr RPAREN         { $2 }</span>
+<span style="color:green;">  | expr PLUS expr             { Op ($1,Plus,$3, location()) }</span>
+<span style="color:green;">  | expr MINUS expr             { Op ($1,Minus,$3, location()) }</span>
+<span style="color:green;">  | expr MUL expr             { Op ($1,Mul,$3, location()) }</span>
+<span style="color:green;">  | expr DIV expr             { Op ($1,Div,$3, location()) }</span>
+<span style="color:green;">  | DEREF LOC                  { Loc ($2, location()) }</span>
+<span style="color:green;">  | LOC ASGNOP expr            { Atrib ($1,$3, location()) }</span>
+<span style="color:green;">  | expr LTE expr              { Op ($1, Mic, $3, location()) }</span>
+<span style="color:green;">  | expr EQ expr              { Op ($1, Egal, $3, location()) }</span>
+<span style="color:green;">  | expr SEQ expr              { Secv ($1,$3, location()) }</span>
+<span style="color:green;">  | IF expr THEN expr ELSE expr %prec IFX</span>
+<span style="color:green;">                               { If ($2, $4, $6, location()) }</span>
+<span style="color:green;">  | WHILE expr DO expr DONE    { While ($2, $4, location()) }</span>
+<span style="color:green;">  | FOR LPAREN expr SEQ expr SEQ expr RPAREN expr %prec FORX</span>
+<span style="color:green;">                               { For ($3, $5, $7, $9, location()) }</span>
+<span style="color:green;">  | error                      { parseError (location ()) }</span>
+<span style="color:green;">;</span>
+<span style="font-weight:bold;">diff --git a/programs/test1.imp b/programs/test1.imp</span>
+<span style="font-weight:bold;">new file mode 100644</span>
+<span style="font-weight:bold;">index 0000000..6c8b0dd</span>
+<span style="font-weight:bold;">--- /dev/null</span>
+<span style="font-weight:bold;">+++ b/programs/test1.imp</span>
+<span style="color:teal;">@@ -0,0 +1 @@</span>
+<span style="color:green;">3 + 4</span>
+<span style="font-weight:bold;">diff --git a/programs/test2.imp b/programs/test2.imp</span>
+<span style="font-weight:bold;">new file mode 100644</span>
+<span style="font-weight:bold;">index 0000000..fc8a53f</span>
+<span style="font-weight:bold;">--- /dev/null</span>
+<span style="font-weight:bold;">+++ b/programs/test2.imp</span>
+<span style="color:teal;">@@ -0,0 +1,4 @@</span>
+<span style="color:green;">x := 3;</span>
+<span style="color:green;">y := 7;</span>
+<span style="color:green;">z := (!x + !y)</span> 
+
+<span style="font-weight:bold;">diff --git a/programs/test3.imp b/programs/test3.imp</span>
+<span style="font-weight:bold;">new file mode 100644</span>
+<span style="font-weight:bold;">index 0000000..fc4969a</span>
+<span style="font-weight:bold;">--- /dev/null</span>
+<span style="font-weight:bold;">+++ b/programs/test3.imp</span>
+<span style="color:teal;">@@ -0,0 +1 @@</span>
+<span style="color:green;">3 + 4 * 5 - 6 / 2 / 4</span>
+<span style="font-weight:bold;">diff --git a/programs/test4.imp b/programs/test4.imp</span>
+<span style="font-weight:bold;">new file mode 100644</span>
+<span style="font-weight:bold;">index 0000000..87eea2c</span>
+<span style="font-weight:bold;">--- /dev/null</span>
+<span style="font-weight:bold;">+++ b/programs/test4.imp</span>
+<span style="color:teal;">@@ -0,0 +1,7 @@</span>
+<span style="color:green;">n := 10 ;</span>
+<span style="color:green;">s := 0 ;</span>
+<span style="color:green;">while 1 &lt;= !n do</span>
+<span style="color:green;">  s := !s + !n ;</span>
+<span style="color:green;">  n := !n - 1</span>
+<span style="color:green;">done</span>
+
+<span style="font-weight:bold;">diff --git a/programs/test5.imp b/programs/test5.imp</span>
+<span style="font-weight:bold;">new file mode 100644</span>
+<span style="font-weight:bold;">index 0000000..1e622b7</span>
+<span style="font-weight:bold;">--- /dev/null</span>
+<span style="font-weight:bold;">+++ b/programs/test5.imp</span>
+<span style="color:teal;">@@ -0,0 +1,4 @@</span>
+<span style="color:green;">n := 100;</span>
+<span style="color:green;">if (!n &lt;= 100) then skip else</span>
+<span style="color:green;">  y := !y + !x ;</span>
+<span style="color:green;">n := !n + -1</span>
+<span style="font-weight:bold;">diff --git a/programs/test6.imp b/programs/test6.imp</span>
+<span style="font-weight:bold;">new file mode 100644</span>
+<span style="font-weight:bold;">index 0000000..f273d15</span>
+<span style="font-weight:bold;">--- /dev/null</span>
+<span style="font-weight:bold;">+++ b/programs/test6.imp</span>
+<span style="color:teal;">@@ -0,0 +1,5 @@</span>
+<span style="color:green;">n := 1000;</span>
+<span style="color:green;">for (x := 1; !x &lt;= !n; x := !x + 1)</span>
+<span style="color:green;">  y := !y + !x ;</span>
+<span style="color:green;">n := !n - 1</span>
+
+<span style="font-weight:bold;">diff --git a/programs/todoFloat0.imp b/programs/todoFloat0.imp</span>
+<span style="font-weight:bold;">new file mode 100644</span>
+<span style="font-weight:bold;">index 0000000..ebb7e92</span>
+<span style="font-weight:bold;">--- /dev/null</span>
+<span style="font-weight:bold;">+++ b/programs/todoFloat0.imp</span>
+<span style="color:teal;">@@ -0,0 +1 @@</span>
+<span style="color:green;">3.1415</span>
+<span style="font-weight:bold;">diff --git a/programs/todoFloat1.imp b/programs/todoFloat1.imp</span>
+<span style="font-weight:bold;">new file mode 100644</span>
+<span style="font-weight:bold;">index 0000000..1cd9752</span>
+<span style="font-weight:bold;">--- /dev/null</span>
+<span style="font-weight:bold;">+++ b/programs/todoFloat1.imp</span>
+<span style="color:teal;">@@ -0,0 +1 @@</span>
+<span style="color:green;">3. + 6.5</span>
+<span style="font-weight:bold;">diff --git a/programs/todoFloat2.imp b/programs/todoFloat2.imp</span>
+<span style="font-weight:bold;">new file mode 100644</span>
+<span style="font-weight:bold;">index 0000000..2acbf2b</span>
+<span style="font-weight:bold;">--- /dev/null</span>
+<span style="font-weight:bold;">+++ b/programs/todoFloat2.imp</span>
+<span style="color:teal;">@@ -0,0 +1 @@</span>
+<span style="color:green;">if 3.5 &lt;= 1.7 then 4.3 else 2.1</span>
+<span style="font-weight:bold;">diff --git a/programs/todoFloat3.imp b/programs/todoFloat3.imp</span>
+<span style="font-weight:bold;">new file mode 100644</span>
+<span style="font-weight:bold;">index 0000000..96a14ea</span>
+<span style="font-weight:bold;">--- /dev/null</span>
+<span style="font-weight:bold;">+++ b/programs/todoFloat3.imp</span>
+<span style="color:teal;">@@ -0,0 +1 @@</span>
+<span style="color:green;">3 + 2.5 &lt;= 7</span>
+<span style="font-weight:bold;">diff --git a/programs/todoFloat4.imp b/programs/todoFloat4.imp</span>
+<span style="font-weight:bold;">new file mode 100644</span>
+<span style="font-weight:bold;">index 0000000..2a57bee</span>
+<span style="font-weight:bold;">--- /dev/null</span>
+<span style="font-weight:bold;">+++ b/programs/todoFloat4.imp</span>
+<span style="color:teal;">@@ -0,0 +1,2 @@</span>
+<span style="color:green;">x := 7;</span>
+<span style="color:green;">y := 4.5</span>
+<span style="font-weight:bold;">diff --git a/programs/todoFloat5.imp b/programs/todoFloat5.imp</span>
+<span style="font-weight:bold;">new file mode 100644</span>
+<span style="font-weight:bold;">index 0000000..8fae2d2</span>
+<span style="font-weight:bold;">--- /dev/null</span>
+<span style="font-weight:bold;">+++ b/programs/todoFloat5.imp</span>
+<span style="color:teal;">@@ -0,0 +1,13 @@</span>
+<span style="color:green;">e := 0.0001;</span>
+<span style="color:green;">cr := -3/4.;</span>
+<span style="color:green;">ci := !e;</span>
+<span style="color:green;">zr := !cr;</span>
+<span style="color:green;">zi := !ci;</span>
+<span style="color:green;">n := 0;</span>
+<span style="color:green;">while !zr*!zr - !zi*!zi &lt; 4 do</span>
+<span style="color:green;">  zr_old := !zr;</span>
+<span style="color:green;">  zr := !zr*!zr - !zi*!zi + !cr;</span>
+<span style="color:green;">  zi := 2*!zr_old*!zi + !ci;</span>
+<span style="color:green;">  n := !n + 1  </span>
+<span style="color:green;">done ;</span>
+<span style="color:green;">p := !n * !e</span>
+<span style="font-weight:bold;">diff --git a/semantics.cmi b/semantics.cmi</span>
+<span style="font-weight:bold;">new file mode 100644</span>
+<span style="font-weight:bold;">index 0000000..b825f3b</span>
+Binary files /dev/null and b/semantics.cmi differ
+<span style="font-weight:bold;">diff --git a/semantics.cmo b/semantics.cmo</span>
+<span style="font-weight:bold;">new file mode 100644</span>
+<span style="font-weight:bold;">index 0000000..34fef79</span>
+Binary files /dev/null and b/semantics.cmo differ
+<span style="font-weight:bold;">diff --git a/semantics.ml b/semantics.ml</span>
+<span style="font-weight:bold;">new file mode 100644</span>
+<span style="font-weight:bold;">index 0000000..61e3471</span>
+<span style="font-weight:bold;">--- /dev/null</span>
+<span style="font-weight:bold;">+++ b/semantics.ml</span>
+<span style="color:teal;">@@ -0,0 +1,48 @@</span>
+<span style="color:green;">open Mem</span>
+<span style="color:green;">open ImpAST</span>
+
+<span style="color:green;">let rec reduce = function</span>
+<span style="color:green;">  | (Op(Int (n1,_),Plus,Int (n2,_),loc),s) -&gt; Some (Int (n1+n2,loc),s)             (*Op+*)</span>
+<span style="color:green;">  | (Op(Int (n1,_),Minus,Int (n2,_),loc),s) -&gt; Some (Int (n1-n2,loc),s)             (*Op+*)</span>
+<span style="color:green;">  | (Op(Int (n1,_),Mul,Int (n2,_),loc),s) -&gt; Some (Int (n1*n2,loc),s)             (*Op+*)</span>
+<span style="color:green;">  | (Op(Int (n1,_),Div,Int (n2,_),loc),s) when n2 &lt;&gt; 0 </span>
+<span style="color:green;">    -&gt; Some (Int (n1/n2,loc),s)             (*Op+*)</span>
+<span style="color:green;">  | (Op(Int (n1,_),Mic,Int (n2,_),loc),s) -&gt; Some (Bool (n1&lt;=n2,loc),s)            (*Op&lt;=*)</span>
+<span style="color:green;">  | (Op(Int (n1,_),Egal,Int (n2,_),loc),s) -&gt; Some (Bool (n1=n2,loc),s)            (*Op&lt;=*)</span>
+<span style="color:green;">  | (Op(Int (n1,loc1),op,e2,loc),s) -&gt;                                        (*OpD*)</span>
+<span style="color:green;">    (match reduce (e2,s) with </span>
+<span style="color:green;">      | Some (e2',s') -&gt; Some (Op(Int (n1,loc1),op,e2',loc),s')</span>
+<span style="color:green;">      | None -&gt; None</span>
+<span style="color:green;">    )</span>
+<span style="color:green;">  | (Op(e1,op,e2,loc),s) -&gt;                                            (*OpS*)</span>
+<span style="color:green;">    (match reduce (e1,s) with Some (e1',s') -&gt; Some (Op(e1',op,e2,loc),s')</span>
+<span style="color:green;">      | None -&gt; None)</span>
+<span style="color:green;">  | (Loc (l,loc), s) -&gt; Some (Int (lookup l s,loc), s)                    (*Loc*)</span>
+<span style="color:green;">  | (Atrib(l, Int (n,_),loc),s) -&gt;                                         (*Atrib*)</span>
+<span style="color:green;">      Some (Skip loc, update (l,n) s)</span>
+<span style="color:green;">  | (Atrib(l,e,loc),s) -&gt;                                          (*AtribD*)</span>
+<span style="color:green;">    (match reduce (e,s) with Some (e',s') -&gt; Some (Atrib(l,e',loc),s')</span>
+<span style="color:green;">      | None -&gt; None)</span>
+<span style="color:green;">  | (Secv(Skip _,e,_),s) -&gt; Some (e,s)                                 (*Secv*)</span>
+<span style="color:green;">  | (Secv(e1,e2,loc),s) -&gt;                                             (*SecvS*)</span>
+<span style="color:green;">    (match reduce (e1,s) with Some (e1',s') -&gt; Some (Secv(e1',e2,loc),s')</span>
+<span style="color:green;">      | None -&gt; None)</span>
+<span style="color:green;">  | (If(Bool (true,_),e1,e2,_),s) -&gt; Some (e1,s)                         (*IfTrue*)</span>
+<span style="color:green;">  | (If(Bool (false,_),e1,e2,_),s) -&gt; Some (e2,s)                        (*IfFalse*)</span>
+<span style="color:green;">  | (If(e,e1,e2,loc),s) -&gt;                                             (*IfS*)</span>
+<span style="color:green;">    (match reduce (e,s) with Some (e',s') -&gt; Some (If(e',e1,e2,loc),s')</span>
+<span style="color:green;">      | None -&gt; None)</span>
+<span style="color:green;">  | (While(e1,e2,loc),s) -&gt; Some (If(e1,Secv(e2,While(e1,e2,loc),loc),Skip loc,loc),s) (*While*)</span>
+<span style="color:green;">  | (For(init,cond,incr,body,l), s) </span>
+<span style="color:green;">    -&gt; Some (Secv(init,While(cond,Secv(body,incr,l),l),l), s)    (*For*)</span>
+<span style="color:green;">  | _ -&gt; None                                                    (*default*)</span>
+
+
+<span style="color:green;">(* evaluate basically computes the transitive closure -&gt;* of the</span>
+<span style="color:green;">   one step reduction relation. *)</span>
+<span style="color:green;">let rec evaluate c = match (reduce c) with</span>
+<span style="color:green;">  | Some c -&gt; evaluate c</span>
+<span style="color:green;">  | None -&gt; c</span>
+
+
+<span style="color:green;">let string_of_config (p,m) = &quot;&lt;&quot; ^ string_of_expr p ^ &quot;, {&quot; ^ string_of_mem m ^ &quot;} &gt;&quot;</span>
+<span style="font-weight:bold;">diff --git a/types.cmi b/types.cmi</span>
+<span style="font-weight:bold;">new file mode 100644</span>
+<span style="font-weight:bold;">index 0000000..5ac4b90</span>
+Binary files /dev/null and b/types.cmi differ
+<span style="font-weight:bold;">diff --git a/types.cmo b/types.cmo</span>
+<span style="font-weight:bold;">new file mode 100644</span>
+<span style="font-weight:bold;">index 0000000..7fe5974</span>
+Binary files /dev/null and b/types.cmo differ
+<span style="font-weight:bold;">diff --git a/types.ml b/types.ml</span>
+<span style="font-weight:bold;">new file mode 100644</span>
+<span style="font-weight:bold;">index 0000000..f82b84f</span>
+<span style="font-weight:bold;">--- /dev/null</span>
+<span style="font-weight:bold;">+++ b/types.ml</span>
+<span style="color:teal;">@@ -0,0 +1,69 @@</span>
+<span style="color:green;">open Mem</span>
+<span style="color:green;">open ImpAST</span>
+
+<span style="color:green;">(* types of expressions *)</span>
+<span style="color:green;">type tip = TInt | TBool | TUnit</span>
+
+<span style="color:green;">let string_of_tip = function</span>
+<span style="color:green;">  | TInt -&gt; &quot;int&quot;</span>
+<span style="color:green;">  | TBool -&gt; &quot;bool&quot;</span>
+<span style="color:green;">  | TUnit -&gt; &quot;unit&quot;</span>
+
+<span style="color:green;">(* types of locations *)</span>
+<span style="color:green;">type tipL = TIntRef</span>
+
+<span style="color:green;">exception TypeError of expr*tip*tip</span>
+<span style="color:green;">exception LocError of string*locatie</span>
+
+<span style="color:green;">(* Type inference function *)</span>
+<span style="color:green;">let rec infertype m = function</span>
+<span style="color:green;">  | Int (n,_) -&gt; TInt</span>
+<span style="color:green;">  | Bool (b,_) -&gt; TBool</span>
+<span style="color:green;">  | Op(e1,Plus,e2,_) </span>
+<span style="color:green;">  | Op(e1,Minus,e2,_) </span>
+<span style="color:green;">  | Op(e1,Mul,e2,_) </span>
+<span style="color:green;">  | Op(e1,Div,e2,_) </span>
+<span style="color:green;">    -&gt; (match (infertype m e1, infertype m e2) with</span>
+<span style="color:green;">     | (TInt, TInt) -&gt; TInt</span>
+<span style="color:green;">     | (TInt, t) -&gt; raise (TypeError (e2, TInt, t))</span>
+<span style="color:green;">     | (t,_) -&gt; raise (TypeError (e1, TInt, t)))</span>
+<span style="color:green;">  | Op(e1,Mic,e2,_) </span>
+<span style="color:green;">  | Op(e1,Egal,e2,_) </span>
+<span style="color:green;">    -&gt; (match (infertype m e1, infertype m e2) with</span>
+<span style="color:green;">     | (TInt, TInt) -&gt; TBool</span>
+<span style="color:green;">     | (TInt, t) -&gt; raise (TypeError (e2, TInt, t))</span>
+<span style="color:green;">     | (t,_) -&gt; raise (TypeError (e1, TInt, t)))</span>
+<span style="color:green;">  | If(e1,e2,e3,_) -&gt; (match (infertype m e1, infertype m e2, infertype m e3) with</span>
+<span style="color:green;">     | (TBool, t, t') when t=t' -&gt; t</span>
+<span style="color:green;">     | (TBool, t, t') -&gt; raise (TypeError (e3, t, t'))</span>
+<span style="color:green;">     | (t,_,_) -&gt; raise (TypeError (e1, TBool, t)))</span>
+<span style="color:green;">  | Loc (l,loc) -&gt; (try (match lookup l m with TIntRef -&gt; TInt) with </span>
+<span style="color:green;">     Not_found -&gt; raise (LocError (l, loc)))</span>
+<span style="color:green;">  | Atrib(l,e,loc) -&gt; (try (match (lookup l m, infertype m e) with</span>
+<span style="color:green;">     | (TIntRef, TInt) -&gt; TUnit</span>
+<span style="color:green;">     | (TIntRef, t) -&gt; raise (TypeError (e, TInt, t))) with</span>
+<span style="color:green;">     Not_found -&gt; raise (LocError (l, loc)))</span>
+<span style="color:green;">  | Skip _ -&gt; TUnit</span>
+<span style="color:green;">  | Secv (e1,e2,_) -&gt; (match (infertype m e1, infertype m e2) with</span>
+<span style="color:green;">     | (TUnit,t) -&gt; t</span>
+<span style="color:green;">     | (t1,_) -&gt; raise (TypeError (e1, TUnit, t1)))</span>
+<span style="color:green;">  | While (cond,body,_) -&gt; (match (infertype m cond, infertype m body) with</span>
+<span style="color:green;">     | (TBool, TUnit) -&gt; TUnit</span>
+<span style="color:green;">     | (TBool, t) -&gt; raise (TypeError (body, TUnit, t))</span>
+<span style="color:green;">     | (t,_) -&gt; raise (TypeError (cond, TBool, t)))</span>
+<span style="color:green;">  | For (init,cond,incr,body,_) </span>
+<span style="color:green;">    -&gt; (match (infertype m init, infertype m cond, infertype m incr, infertype m body) with</span>
+<span style="color:green;">     | (TUnit, TBool, TUnit, TUnit) -&gt; TUnit</span>
+<span style="color:green;">     | (TUnit, TBool, TUnit, t) -&gt; raise (TypeError (body, TUnit, t))</span>
+<span style="color:green;">     | (TUnit, TBool, t, _) -&gt; raise (TypeError (incr, TUnit, t))</span>
+<span style="color:green;">     | (TUnit, t, _, _) -&gt; raise (TypeError (cond, TBool, t))</span>
+<span style="color:green;">     | (t, _, _, _) -&gt; raise (TypeError (init, TUnit, t)))</span>
+
+
+<span style="color:green;">let type_check m e = try</span>
+<span style="color:green;">     let _ = infertype m e in true</span>
+<span style="color:green;">  with </span>
+<span style="color:green;">    | TypeError (e,t1,t2) -&gt; Printf.eprintf &quot;Error: Expected type %s but got type %s at %s.\n&quot;  (string_of_tip t1) (string_of_tip t2) (location e) ; false</span>
+<span style="color:green;">    | LocError (l,loc) -&gt; Printf.eprintf &quot;Error: Location %s undefined at %s.\n&quot; l loc ; false</span>
+
+
+</pre>
+</body>
+</html>
